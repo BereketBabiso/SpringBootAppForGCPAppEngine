@@ -1,0 +1,52 @@
+buildscript {
+	ext {
+		springBootVersion = '2.2.5.RELEASE'
+		projectId = 'GCLOUD_CONFIG1'
+	}
+	repositories {
+		mavenCentral()
+	}
+	
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("com.google.cloud.tools:appengine-gradle-plugin:2.4.2")
+	}
+}
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'java'
+apply plugin: 'com.google.cloud.tools.appengine'
+
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '9'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+def projectIdd = 'GCLOUD_CONFIG'
+
+if (project.hasProperty("dev")) {
+	println 'testing...'
+	projectIdd = 'GCLOUD_CONFIG'
+}
+
+appengine {
+    deploy {
+    	println "${projectIdd}"
+        version = "GCLOUD_CONFIG"
+        projectId = projectIdd
+    }
+}
+
+test {
+	useJUnitPlatform()
+}
